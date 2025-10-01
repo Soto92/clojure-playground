@@ -1,3 +1,5 @@
+Perfect! Let’s update your README to use the **REPL method**, which is simple, reliable, and avoids all the
+
 # Bitonic Sequence in Clojure
 
 This project implements **bitonic sequence generation** in Clojure and saves test results into **Redis** running in Docker.
@@ -14,7 +16,7 @@ This project implements **bitonic sequence generation** in Clojure and saves tes
 
 ## 📂 Project Structure
 
-bitonic-alg/
+bitonic/
 ├── deps.edn
 ├── src/
 │ └── bitonic/
@@ -39,43 +41,36 @@ This starts Redis on `localhost:6379`.
 
 ---
 
-### 2. Run `bitonic-array` manually
+### 2. Run the REPL
 
-Start a REPL:
+Start the Clojure REPL from the project root:
 
 ```bash
 clojure -M
 ```
 
-Load the namespace and run examples:
-
-```clojure
-(require '[bitonic.core :refer [bitonic-array]])
-
-(bitonic-array 5 3 10)
-;; => [9 10 9 8 7]
-
-(bitonic-array 7 2 5)
-;; => [2 3 4 5 4 3 2]
-
-(bitonic-array 15 1 5)
-;; => [-1]
-```
-
 ---
 
-### 3. Run the tests
+### 3. Load namespaces and run tests
 
-Run:
+In the REPL:
 
-```bash
-clojure -X:test
+```clojure
+;; Load your code and tests
+(require '[clojure.test :refer :all])
+(require '[bitonic.core-test :refer :all])
+
+;; Run all tests in your namespace
+(run-tests 'bitonic.core-test)
 ```
 
-The tests will:
+Expected output:
 
-- Validate the `bitonic-array` function
-- Save results into Redis as **hashes**
+```
+Testing bitonic.core-test
+Ran 4 tests containing 12 assertions.
+0 failures, 0 errors.
+```
 
 ---
 
@@ -87,7 +82,7 @@ Open the Redis CLI:
 docker exec -it redis-bitonic redis-cli
 ```
 
-List keys:
+List all test keys:
 
 ```redis
 KEYS test:*
@@ -99,7 +94,7 @@ Inspect a specific test:
 HGETALL test:case-1
 ```
 
-Expected output:
+Example output:
 
 ```
 1) "status"
@@ -114,9 +109,7 @@ Expected output:
 
 ---
 
-## 🛠️ Clean up Redis container
-
-To remove the container:
+### 5. Stop and remove Redis container (optional)
 
 ```bash
 docker rm -f redis-bitonic
